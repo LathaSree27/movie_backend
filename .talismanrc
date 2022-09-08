@@ -5,3 +5,10 @@ fileignoreconfig:
   checksum: d27bec4ba2b457de4045a468a7594c9f8c209a799e684f9d2afb1072303666ee
 - filename: README.md
   checksum: 6f2809d06fa7d484b934ac433b70b9367908e5ee5d7a29d0650a451ca470f8f0
+- filename: build.gradle
+  checksum: 7ceb2de4d7414bc9c5d6f0ccbbc76e009f0edeae70c977df01175b18eabbe944
+- filename: src/main/java/com/booking/users/UserPrincipalService.java
+  checksum: 1dd6785b04d8a8482ee0cbd506a277b3619a13c26a9b2121f40d7500070c0082
+- filename: src/main/java/com/booking/users/ChangePasswordRequest.java
+  checksum: 10119f97624c91a71df56fe2fe7b6e817da535f6d32181657bef9fcb2178826e
+version: ""
