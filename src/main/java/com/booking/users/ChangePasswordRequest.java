@@ -38,10 +38,4 @@ public class ChangePasswordRequest {
         this.confirmNewPassword = confirmNewPassword;
     }
 
-    public boolean isValid() {
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,64}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(this.newPassword);
-        return matcher.matches();
-    }
 }

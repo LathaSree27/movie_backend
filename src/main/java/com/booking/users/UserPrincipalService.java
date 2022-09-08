@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserPrincipalService implements UserDetailsService {
@@ -43,7 +45,7 @@ public class UserPrincipalService implements UserDetailsService {
 
         String newPassword = changePassword.getNewPassword();
 
-        if(!changePassword.isValid())
+        if(!isValid(newPassword))
             return new ResponseEntity("Password doesn't meet criteria required", HttpStatus.BAD_REQUEST);
         if(!newPassword.equals(changePassword.getConfirmNewPassword()))
             return new ResponseEntity("Passwords don't match ", HttpStatus.BAD_REQUEST);
@@ -51,5 +53,12 @@ public class UserPrincipalService implements UserDetailsService {
         user.get().setPassword(newPassword);
         userRepository.save(user.get());
         return new ResponseEntity("Password changed successfully", HttpStatus.OK);
+    }
+
+    private boolean isValid(String newPassword) {
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,64}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(newPassword);
+        return matcher.matches();
     }
 }
