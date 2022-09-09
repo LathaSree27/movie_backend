@@ -13,4 +13,12 @@ fileignoreconfig:
   checksum: 10119f97624c91a71df56fe2fe7b6e817da535f6d32181657bef9fcb2178826e
 - filename: src/test/java/com/booking/users/view/UserControllerIntegrationTest.java
   checksum: b36ed51e531b8f81bb81c25369f9b43e42720d188fb52c1b51d60213eec2e6bc
+- filename: src/main/resources/db/migration/V2.1__CreateEndUserTable.sql
+  checksum: 06515d2b3c79c8af5e96d3bc1b648fbcb3f17d7127bb72f801fa66d1c5add020
+- filename: src/main/java/com/booking/enduser/EndUser.java
+  checksum: c10a35c28d32fc6f440283400fefbde300b1f0ae9d5459992fd8f45ffbc15d74
+- filename: src/main/java/com/booking/enduser/EndUserModel.java
+  checksum: a3de2000d885ca8f045750d55279f9fdbb23fe3ce2b5dca6b2584f48209a8546
+- filename: src/main/java/com/booking/users/ChangePassword.java
+  checksum: 487d82fab24c81011828444d05a0bedb9688c040ae34d5b0e49874feb1ab9add
 version: ""

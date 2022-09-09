@@ -10,6 +10,6 @@ public class TimeStringConverter {
 
     public String convert(Time time) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a");
-        return simpleDateFormat.format(time);
+        return simpleDateFormat.format(time).toUpperCase();
     }
 }
