@@ -2,6 +2,7 @@ package com.booking.enduser;
 
 import com.booking.users.ChangePasswordRequest;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EndUserController {
 
+    @Autowired
     EndUserService endUserService;
 
     @PostMapping("/sign-up")
