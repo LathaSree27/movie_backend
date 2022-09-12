@@ -39,15 +39,16 @@ public class UserPrincipalService implements UserDetailsService {
         String password = user.get().getPassword();
 
         String oldPassword = changePassword.getOldPassword();
-        if(!password.equals(oldPassword)) {
+        if (!password.equals(oldPassword)) {
             return new ResponseEntity("Incorrect old password", HttpStatus.BAD_REQUEST);
         }
 
         String newPassword = changePassword.getNewPassword();
-
-        if(!isValid(newPassword))
+        if (oldPassword.equals(newPassword))
+            return new ResponseEntity("New password should not be same as old password", HttpStatus.BAD_REQUEST);
+        if (!isValid(newPassword))
             return new ResponseEntity("Password doesn't meet criteria required", HttpStatus.BAD_REQUEST);
-        if(!newPassword.equals(changePassword.getConfirmNewPassword()))
+        if (!newPassword.equals(changePassword.getConfirmNewPassword()))
             return new ResponseEntity("Passwords don't match ", HttpStatus.BAD_REQUEST);
 
         user.get().setPassword(newPassword);
