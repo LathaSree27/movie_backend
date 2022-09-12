@@ -34,26 +34,34 @@ public class UserPrincipalService implements UserDetailsService {
     }
 
     @NotNull
-    protected ResponseEntity changePasswordStatus(ChangePasswordRequest changePassword, String username) {
+    public ResponseEntity changePasswordStatus(ChangePasswordRequest changePassword, String username) {
         Optional<User> user = userRepository.findByUsername(username);
         String password = user.get().getPassword();
 
         String oldPassword = changePassword.getOldPassword();
-        if(!password.equals(oldPassword)) {
+
+        if (!isSame(password, oldPassword)) {
             return new ResponseEntity("Incorrect old password", HttpStatus.BAD_REQUEST);
         }
 
         String newPassword = changePassword.getNewPassword();
 
-        if(!isValid(newPassword))
+        if (isSame(newPassword, oldPassword))
+            return new ResponseEntity("New password should not be same as old password", HttpStatus.BAD_REQUEST);
+        if (!isValid(newPassword))
             return new ResponseEntity("Password doesn't meet criteria required", HttpStatus.BAD_REQUEST);
-        if(!newPassword.equals(changePassword.getConfirmNewPassword()))
-            return new ResponseEntity("Passwords don't match ", HttpStatus.BAD_REQUEST);
+        if (!isSame(newPassword, changePassword.getConfirmNewPassword()))
+            return new ResponseEntity("Passwords don't match", HttpStatus.BAD_REQUEST);
 
         user.get().setPassword(newPassword);
         userRepository.save(user.get());
         return new ResponseEntity("Password changed successfully", HttpStatus.OK);
     }
+
+    private boolean isSame(String firstPassword, String secondPassword) {
+        return firstPassword.equals(secondPassword);
+    }
+
 
     private boolean isValid(String newPassword) {
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,64}$";

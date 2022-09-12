@@ -1,7 +1,6 @@
 package com.booking.users;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,7 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    Principal principal;
     UserPrincipalService userPrincipalService;
-
-    private static String authorizationHeader;
 
     @Autowired
     public UserController(UserPrincipalService userPrincipalService) {
@@ -25,9 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public Map<String, Object> login(Principal principal, @RequestHeader(value="Authorization") String authorizationHeader) {
-        this.principal = principal;
-        this.authorizationHeader = authorizationHeader;
+    public Map<String, Object> login(Principal principal) {
         String username = principal.getName();
         Map<String, Object> userDetails = new HashMap<>();
         userDetails.put("username", username);
@@ -35,12 +29,8 @@ public class UserController {
     }
 
     @PutMapping("/login/changePassword")
-    ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePassword) {
+    public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePassword,Principal principal) {
         String username = principal.getName();
         return userPrincipalService.changePasswordStatus(changePassword, username);
-    }
-
-    public static String getAuthorizationHeader() {
-        return authorizationHeader;
     }
 }

@@ -7,6 +7,17 @@ public class EndUser {
     private String password;
     private String confirmPassword;
 
+    public EndUser() {
+    }
+
+    public EndUser(String fullName, String email, String phoneNumber, String password, String confirmPassword) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
+
     public String getFullName() {
         return fullName;
     }
