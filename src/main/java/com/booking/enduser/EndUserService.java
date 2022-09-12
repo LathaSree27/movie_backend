@@ -13,33 +13,40 @@ import java.util.regex.Pattern;
 public class EndUserService {
 
     @Autowired
-    private  EndUserRepository endUserRepository;
+    private EndUserRepository endUserRepository;
 
     private EndUserModel endUserModel;
 
     @NotNull
     protected ResponseEntity signup(EndUser endUser) {
 
-        if(!isValidFullName(endUser.getFullName()))
+        if (!isValidFullName(endUser.getFullName()))
             return new ResponseEntity("Invalid name", HttpStatus.BAD_REQUEST);
 
-        if(!isValidPassword(endUser.getPassword()))
-            return new ResponseEntity("Password doesn't meet criteria required", HttpStatus.BAD_REQUEST);
-
-        if(!isValidEmail(endUser.getEmail()))
+        if (!isValidEmail(endUser.getEmail()))
             return new ResponseEntity("Invalid email", HttpStatus.BAD_REQUEST);
 
-        if(!isValidPhoneNumber(endUser.getPhoneNumber()))
+        if (!isValidPhoneNumber(endUser.getPhoneNumber()))
             return new ResponseEntity("Invalid phone number", HttpStatus.BAD_REQUEST);
 
-        if(!endUser.getPassword().equals(endUser.getConfirmPassword()))
-            return new ResponseEntity("Passwords don't match ", HttpStatus.BAD_REQUEST);
+        if (!isValidPassword(endUser.getPassword()))
+            return new ResponseEntity("Password doesn't meet criteria required", HttpStatus.BAD_REQUEST);
 
-        endUserModel=new EndUserModel(endUser);
+        if (!endUser.getPassword().equals(endUser.getConfirmPassword()))
+            return new ResponseEntity("Passwords don't match", HttpStatus.BAD_REQUEST);
+
+        if(endUserRepository.findByEmail(endUser.getEmail()) != null)
+            return new ResponseEntity("Email already exists", HttpStatus.BAD_REQUEST);
+
+        if(endUserRepository.findByPhoneNumber(endUser.getPhoneNumber()) != null)
+            return new ResponseEntity("Phone number already exists", HttpStatus.BAD_REQUEST);
+
+        endUserModel = new EndUserModel(endUser);
 
         endUserRepository.save(endUserModel);
         return new ResponseEntity("Sign up successful", HttpStatus.OK);
     }
+
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,64}$";
         Pattern pattern = Pattern.compile(regex);
@@ -48,7 +55,7 @@ public class EndUserService {
     }
 
     private boolean isValidFullName(String fullName) {
-        String regex = "/^[a-zA-Z ]*$/";
+        String regex = "^[\\p{L} .'-]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(fullName);
         return matcher.matches();

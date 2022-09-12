@@ -43,4 +43,7 @@ public class EndUserModel {
         this.phoneNumber = endUser.getPhoneNumber();
         this.password = endUser.getPassword();
     }
+
+    public EndUserModel() {
+    }
 }
