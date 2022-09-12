@@ -13,7 +13,6 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    Principal principal;
     UserPrincipalService userPrincipalService;
 
     @Autowired
@@ -23,7 +22,6 @@ public class UserController {
 
     @GetMapping("/login")
     public Map<String, Object> login(Principal principal) {
-        this.principal = principal;
         String username = principal.getName();
         Map<String, Object> userDetails = new HashMap<>();
         userDetails.put("username", username);
@@ -31,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/login/changePassword")
-    ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePassword) {
+    public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePassword,Principal principal) {
         String username = principal.getName();
         return userPrincipalService.changePasswordStatus(changePassword, username);
     }
