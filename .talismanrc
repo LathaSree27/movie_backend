@@ -11,8 +11,6 @@ fileignoreconfig:
   checksum: 1dd6785b04d8a8482ee0cbd506a277b3619a13c26a9b2121f40d7500070c0082
 - filename: src/main/java/com/booking/users/ChangePasswordRequest.java
   checksum: 10119f97624c91a71df56fe2fe7b6e817da535f6d32181657bef9fcb2178826e
-- filename: src/test/java/com/booking/users/view/UserControllerIntegrationTest.java
-  checksum: b36ed51e531b8f81bb81c25369f9b43e42720d188fb52c1b51d60213eec2e6bc
 - filename: src/main/resources/db/migration/V2.1__CreateEndUserTable.sql
   checksum: 06515d2b3c79c8af5e96d3bc1b648fbcb3f17d7127bb72f801fa66d1c5add020
 - filename: src/main/java/com/booking/enduser/EndUserModel.java
@@ -21,4 +19,10 @@ fileignoreconfig:
   checksum: 487d82fab24c81011828444d05a0bedb9688c040ae34d5b0e49874feb1ab9add
 - filename: src/main/java/com/booking/enduser/EndUser.java
   checksum: f2da3a54ee60bdd89bb31a282914048062397090d7ab20e91ce0b96e5c3e4414
+- filename: src/test/java/com/booking/users/UserControllerTest.java
+  checksum: bc9ce2818d4ca627b9fe5207ae3087def33014f4563c7ced4bc680764b85461a
+- filename: src/test/java/com/booking/users/UserPrincipalServiceTest.java
+  checksum: d354a037d0993233ce899960d2a02f7659e5a6b0a4ff3d99689be98cba173f63
+- filename: src/test/java/com/booking/users/view/UserControllerIntegrationTest.java
+  checksum: acd47a70464f8103879e741171a7b94c3c537361bbe22f02b9020bd3e730cb4d
 version: ""
