@@ -31,7 +31,7 @@ public class CustomerTest {
 
     @Test
     public void should_allow_phone_number_only_10_digits() {
-        final Customer customer = new Customer("Customer 1", "999332");
+        final Customer customer = new Customer("Customer", "999332");
 
         final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
@@ -40,7 +40,7 @@ public class CustomerTest {
 
     @Test
     public void should_not_allow_blank_phone_number() {
-        final Customer customer = new Customer("Customer 1", "");
+        final Customer customer = new Customer("Customer", "");
 
         final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
