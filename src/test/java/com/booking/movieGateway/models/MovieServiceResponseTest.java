@@ -13,7 +13,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MovieServiceResponseTest {
-
     @Test
     public void should_convert_to_a_movie_with_valid_runtime() throws FormatException {
         final var movieServiceResponse = new MovieServiceResponse("id", "title", "50 min", "plot","https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_SX300.jpg");

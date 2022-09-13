@@ -21,13 +21,14 @@ public class Customer {
 
     @Column(nullable = false)
     @JsonProperty
+    @Pattern(regexp = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", message = "Invalid Name")
     @NotBlank(message = "Customer name must be provided")
     @ApiModelProperty(name = "customer name", value = "Name of customer", required = true, example = "Customer name", position = 2)
     private String name;
 
     @Column(name = "phone_number", nullable = false)
     @JsonProperty
-    @Pattern(regexp = "(^$|[0-9]{10})", message = "Phone number must have exactly 10 digits")
+    @Pattern(regexp = "^[6-9]\\d{9}$", message = "Phone number must have exactly 10 digits and should start with 6,7,8, or 9")
     @NotBlank(message = "Phone number must be provided")
     @ApiModelProperty(name = "phone number", value = "Phone number of the customer", required = true, example = "9933221100", position = 3)
     private String phoneNumber;
