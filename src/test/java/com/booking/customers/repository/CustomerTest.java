@@ -26,7 +26,7 @@ public class CustomerTest {
 
         final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
-        assertThat(violations.iterator().next().getMessage(), is("Customer name must be provided"));
+        assertThat(violations.iterator().next().getMessage(), is("Invalid Name"));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class CustomerTest {
 
         final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
-        assertThat(violations.iterator().next().getMessage(), is("Phone number must have exactly 10 digits"));
+        assertThat(violations.iterator().next().getMessage(), is("Phone number must have exactly 10 digits and should start with 6,7,8, or 9"));
     }
 
     @Test
@@ -44,6 +44,6 @@ public class CustomerTest {
 
         final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
-        assertThat(violations.iterator().next().getMessage(), is("Phone number must be provided"));
+        assertThat(violations.iterator().next().getMessage(), is("Phone number must have exactly 10 digits and should start with 6,7,8, or 9"));
     }
 }
