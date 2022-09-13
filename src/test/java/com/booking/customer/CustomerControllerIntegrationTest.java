@@ -1,4 +1,4 @@
-package com.booking.enduser;
+package com.booking.customer;
 
 import com.booking.App;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,29 +20,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = App.class)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class EndUserControllerIntegrationTest {
+public class CustomerControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private EndUserRepository endUserRepository;
+    private CustomerRepository customerRepository;
     @Autowired
     ObjectMapper objectMapper;
 
     @BeforeEach
     public void before() {
-        endUserRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @AfterEach
     public void after() {
-        endUserRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
     public void shouldSignUpSuccessfullyWhenAllCriteriaAreMet() throws Exception {
 
         String requestJson = objectMapper.writeValueAsString(
-                new EndUser("TestUser", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("user@1", "TestUser", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -56,7 +56,7 @@ public class EndUserControllerIntegrationTest {
     @Test
     public void shouldNotSignUpWhenFullNameIsInvalid() throws Exception {
         String requestJson = objectMapper.writeValueAsString(
-                new EndUser("test_user123", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("User@1", "test_user123", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -70,7 +70,7 @@ public class EndUserControllerIntegrationTest {
     @Test
     public void shouldNotSignUpWhenEmailIsInvalid() throws Exception {
         String requestJson = objectMapper.writeValueAsString(
-                new EndUser("Test User", "demogmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("user@1", "Test User", "demogmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -84,7 +84,7 @@ public class EndUserControllerIntegrationTest {
     @Test
     public void shouldNotSignUpWhenPhoneNumberIsInvalid() throws Exception {
         String requestJson = objectMapper.writeValueAsString(
-                new EndUser("Test User", "demo@gmail.com", "912345678", "Test@123", "Test@123")
+                new Customer("user@1", "Test User", "demo@gmail.com", "912345678", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -98,7 +98,7 @@ public class EndUserControllerIntegrationTest {
     @Test
     public void shouldNotSignUpWhenPasswordIsInvalid() throws Exception {
         String requestJson = objectMapper.writeValueAsString(
-                new EndUser("Test User", "demo@gmail.com", "9123456780", "test@123", "test@123")
+                new Customer("user@1", "Test User", "demo@gmail.com", "9123456780", "test@123", "test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -110,9 +110,23 @@ public class EndUserControllerIntegrationTest {
     }
 
     @Test
+    public void shouldNotSignUpWhenUsernameIsInvalid() throws Exception {
+        String requestJson = objectMapper.writeValueAsString(
+                new Customer("1username", "Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+        );
+
+        mockMvc.perform(post("/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Invalid username"))
+                .andReturn();
+    }
+
+    @Test
     public void shouldNotSignUpWhenEmailAlreadyExists() throws Exception {
         String firstRequestJson = objectMapper.writeValueAsString(
-                new EndUser("TestUser", "demo@gmail.com", "9123456789", "Test@123", "Test@123")
+                new Customer("user@41", "TestUser", "demo@gmail.com", "9123456789", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -120,7 +134,7 @@ public class EndUserControllerIntegrationTest {
                 .content(firstRequestJson));
 
         String secondRequestJson = objectMapper.writeValueAsString(
-                new EndUser("Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("user@1", "Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -134,7 +148,7 @@ public class EndUserControllerIntegrationTest {
     @Test
     public void shouldNotSignUpWhenPhoneNumberAlreadyExists() throws Exception {
         String firstRequestJson = objectMapper.writeValueAsString(
-                new EndUser("Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("user@11", "Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -142,7 +156,7 @@ public class EndUserControllerIntegrationTest {
                 .content(firstRequestJson));
 
         String secondRequestJson = objectMapper.writeValueAsString(
-                new EndUser("Test User", "demo2@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("user@1", "Test User", "demo2@gmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -150,6 +164,28 @@ public class EndUserControllerIntegrationTest {
                         .content(secondRequestJson))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Phone number already exists"))
+                .andReturn();
+    }
+
+    @Test
+    public void shouldNotSignUpWhenUsernameAlreadyExists() throws Exception {
+        String firstRequestJson = objectMapper.writeValueAsString(
+                new Customer("user@1", "Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+        );
+
+        mockMvc.perform(post("/sign-up")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(firstRequestJson));
+
+        String secondRequestJson = objectMapper.writeValueAsString(
+                new Customer("user@1", "Test User", "demo2@gmail.com", "9123456781", "Test@123", "Test@123")
+        );
+
+        mockMvc.perform(post("/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(secondRequestJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Username already exists"))
                 .andReturn();
     }
 }

@@ -1,6 +1,6 @@
 package com.booking.bookings.view;
 
-import com.booking.customers.repository.Customer;
+import com.booking.movieAudience.repository.MovieAudience;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,8 +21,8 @@ public class BookingRequest {
     private Long showId;
 
     @JsonProperty
-    @ApiModelProperty(name = "customer", value = "Customer requesting booking", required = true, position = 3)
-    private Customer customer;
+    @ApiModelProperty(name = "audience", value = "Audience requesting booking", required = true, position = 3)
+    private MovieAudience audience;
 
     @JsonProperty
     @DecimalMax(value = MAX_NO_OF_SEATS_PER_BOOKING, message = "Maximum {value} seats allowed per booking")
@@ -37,8 +37,8 @@ public class BookingRequest {
         return showId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public MovieAudience getAudience() {
+        return audience;
     }
 
     public int getNoOfSeats() {
@@ -48,10 +48,10 @@ public class BookingRequest {
     public BookingRequest() {
     }
 
-    public BookingRequest(Date date, Long showId, Customer customer, int noOfSeats) {
+    public BookingRequest(Date date, Long showId, MovieAudience audience, int noOfSeats) {
         this.date = date;
         this.showId = showId;
-        this.customer = customer;
+        this.audience = audience;
         this.noOfSeats = noOfSeats;
     }
 }

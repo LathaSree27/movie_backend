@@ -1,0 +1,1 @@
+ALTER TABLE enduser RENAME TO customer;

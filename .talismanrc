@@ -25,4 +25,12 @@ fileignoreconfig:
   checksum: d354a037d0993233ce899960d2a02f7659e5a6b0a4ff3d99689be98cba173f63
 - filename: src/test/java/com/booking/users/view/UserControllerIntegrationTest.java
   checksum: acd47a70464f8103879e741171a7b94c3c537361bbe22f02b9020bd3e730cb4d
+- filename: src/main/resources/db/migration/V2.2__RenameCustomerTableToMovieAudience.sql
+  checksum: b9cbdeba3da96f3f46da0e6717c7959827e90718c9a08b351de2c61588486b1f
+- filename: src/main/resources/db/migration/V2.3__RenameEndUserTableToCustomerTable.sql
+  checksum: b152c38aa1c1c9a18a17ecae88fff745fda23e81449de3396f59f1d29beb3649
+- filename: src/main/resources/db/migration/V2.4__AddColumnUsernameInCustomerTable.sql
+  checksum: 8eb4ce94598539f94aab781c6f9d047eeb89c36fb2939232cadbf7e50aa24f2c
+- filename: src/main/java/com/booking/bookings/view/BookingRequest.java
+  checksum: 1c62981db3bd81fc232aa365d75d9a4be93e59b3b7ee1b18510d6a6cb86864c7
 version: ""

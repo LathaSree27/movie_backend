@@ -1,16 +1,19 @@
-package com.booking.enduser;
+package com.booking.customer;
 
-public class EndUser {
+public class Customer {
+
+    private String username;
     private String fullName;
     private String email;
     private String phoneNumber;
     private String password;
     private String confirmPassword;
 
-    public EndUser() {
+    public Customer() {
     }
 
-    public EndUser(String fullName, String email, String phoneNumber, String password, String confirmPassword) {
+    public Customer(String username, String fullName, String email, String phoneNumber, String password, String confirmPassword) {
+        this.username = username;
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -56,5 +59,13 @@ public class EndUser {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

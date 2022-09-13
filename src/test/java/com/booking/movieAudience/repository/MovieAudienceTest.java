@@ -1,4 +1,4 @@
-package com.booking.customers.repository;
+package com.booking.movieAudience.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class CustomerTest {
+public class MovieAudienceTest {
 
     private Validator validator;
 
@@ -22,27 +22,27 @@ public class CustomerTest {
 
     @Test
     public void should_not_allow_customer_name_to_be_blank() {
-        final Customer customer = new Customer("", "9099234568");
+        final MovieAudience movieAudience = new MovieAudience("", "9099234568");
 
-        final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+        final Set<ConstraintViolation<MovieAudience>> violations = validator.validate(movieAudience);
 
         assertThat(violations.iterator().next().getMessage(), is("Invalid Name"));
     }
 
     @Test
     public void should_allow_phone_number_only_10_digits() {
-        final Customer customer = new Customer("Customer", "999332");
+        final MovieAudience movieAudience = new MovieAudience("Customer", "999332");
 
-        final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+        final Set<ConstraintViolation<MovieAudience>> violations = validator.validate(movieAudience);
 
         assertThat(violations.iterator().next().getMessage(), is("Phone number must have exactly 10 digits and should start with 6,7,8, or 9"));
     }
 
     @Test
     public void should_not_allow_blank_phone_number() {
-        final Customer customer = new Customer("Customer", "");
+        final MovieAudience movieAudience = new MovieAudience("Customer", "");
 
-        final Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
+        final Set<ConstraintViolation<MovieAudience>> violations = validator.validate(movieAudience);
 
         assertThat(violations.iterator().next().getMessage(), is("Phone number must have exactly 10 digits and should start with 6,7,8, or 9"));
     }

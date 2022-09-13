@@ -18,8 +18,8 @@ public class BookingConfirmationResponse {
     private Long id;
 
     @JsonProperty
-    @ApiModelProperty(name = "customerName", value = "Customer name", required = true, position = 2)
-    private String customerName;
+    @ApiModelProperty(name = "audienceName", value = "Audience name", required = true, position = 2)
+    private String audienceName;
 
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
@@ -38,9 +38,9 @@ public class BookingConfirmationResponse {
     @ApiModelProperty(name = "noOfSeats", value = "No of seats booked", required = true, position = 6)
     private int noOfSeats;
 
-    public BookingConfirmationResponse(Long id, String customerName, Date showDate, Time startTime, BigDecimal amountPaid, int noOfSeats) {
+    public BookingConfirmationResponse(Long id, String audienceName, Date showDate, Time startTime, BigDecimal amountPaid, int noOfSeats) {
         this.id = id;
-        this.customerName = customerName;
+        this.audienceName = audienceName;
         this.showDate = showDate;
         this.startTime = startTime;
         this.amountPaid = amountPaid;
@@ -54,7 +54,7 @@ public class BookingConfirmationResponse {
         BookingConfirmationResponse that = (BookingConfirmationResponse) o;
         return noOfSeats == that.noOfSeats &&
                 Objects.equals(id, that.id) &&
-                Objects.equals(customerName, that.customerName) &&
+                Objects.equals(audienceName, that.audienceName) &&
                 Objects.equals(showDate, that.showDate) &&
                 Objects.equals(startTime, that.startTime) &&
                 Objects.equals(amountPaid, that.amountPaid);
@@ -62,14 +62,14 @@ public class BookingConfirmationResponse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerName, showDate, startTime, amountPaid, noOfSeats);
+        return Objects.hash(id, audienceName, showDate, startTime, amountPaid, noOfSeats);
     }
 
     @Override
     public String toString() {
         return "BookingConfirmation{" +
                 "id=" + id +
-                ", customerName='" + customerName + '\'' +
+                ", audienceName='" + audienceName + '\'' +
                 ", showDate=" + showDate +
                 ", startTime=" + startTime +
                 ", amountPaid=" + amountPaid +

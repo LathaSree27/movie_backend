@@ -1,4 +1,4 @@
-package com.booking.enduser;
+package com.booking.customer;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,42 +10,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class EndUserService {
+public class CustomerService {
 
     @Autowired
-    private EndUserRepository endUserRepository;
+    private CustomerRepository customerRepository;
 
-    private EndUserModel endUserModel;
+    private CustomerModel customerModel;
 
     @NotNull
-    protected ResponseEntity signup(EndUser endUser) {
+    protected ResponseEntity signup(Customer customer) {
+        if (!isValidUsername(customer.getUsername()))
+            return new ResponseEntity("Invalid username", HttpStatus.BAD_REQUEST);
 
-        if (!isValidFullName(endUser.getFullName()))
+        if (!isValidFullName(customer.getFullName()))
             return new ResponseEntity("Invalid name", HttpStatus.BAD_REQUEST);
 
-        if (!isValidEmail(endUser.getEmail()))
+        if (!isValidEmail(customer.getEmail()))
             return new ResponseEntity("Invalid email", HttpStatus.BAD_REQUEST);
 
-        if (!isValidPhoneNumber(endUser.getPhoneNumber()))
+        if (!isValidPhoneNumber(customer.getPhoneNumber()))
             return new ResponseEntity("Invalid phone number", HttpStatus.BAD_REQUEST);
 
-        if (!isValidPassword(endUser.getPassword()))
+        if (!isValidPassword(customer.getPassword()))
             return new ResponseEntity("Password doesn't meet criteria required", HttpStatus.BAD_REQUEST);
 
-        if (!endUser.getPassword().equals(endUser.getConfirmPassword()))
+        if (!customer.getPassword().equals(customer.getConfirmPassword()))
             return new ResponseEntity("Passwords don't match", HttpStatus.BAD_REQUEST);
 
-        if(endUserRepository.findByEmail(endUser.getEmail()) != null)
+        if(customerRepository.findByUsername(customer.getUsername()) != null)
+            return new ResponseEntity("Username already exists", HttpStatus.BAD_REQUEST);
+
+        if(customerRepository.findByEmail(customer.getEmail()) != null)
             return new ResponseEntity("Email already exists", HttpStatus.BAD_REQUEST);
 
-        if(endUserRepository.findByPhoneNumber(endUser.getPhoneNumber()) != null)
+        if(customerRepository.findByPhoneNumber(customer.getPhoneNumber()) != null)
             return new ResponseEntity("Phone number already exists", HttpStatus.BAD_REQUEST);
 
-        endUserModel = new EndUserModel(endUser);
-
-        endUserRepository.save(endUserModel);
+        //if(save(customer) != null)
+        customerModel = new CustomerModel(customer);
+        customerRepository.save(customerModel);
         return new ResponseEntity("Sign up successful", HttpStatus.OK);
+
+        //return new ResponseEntity("Some error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+//    private CustomerModel save(Customer customer) {
+//        customerModel = new CustomerModel(customer);
+//        System.out.println(customerModel);
+//        return customerRepository.save(customerModel);
+//    }
 
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,64}$";
@@ -73,5 +86,16 @@ public class EndUserService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(phoneNumber);
         return matcher.matches();
+    }
+
+    private boolean isValidUsername(String username) {
+        String regex = "^[A-Za-z]+[@_]+[0-9]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(username);
+        return matcher.matches();
+    }
+
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 }
