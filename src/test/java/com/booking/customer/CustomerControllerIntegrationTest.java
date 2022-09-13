@@ -1,6 +1,7 @@
 package com.booking.customer;
 
 import com.booking.App;
+import com.booking.users.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,17 +26,22 @@ public class CustomerControllerIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     ObjectMapper objectMapper;
 
     @BeforeEach
     public void before() {
         customerRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @AfterEach
     public void after() {
         customerRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

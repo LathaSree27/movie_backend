@@ -1,5 +1,7 @@
 package com.booking.customer;
 
+import com.booking.users.User;
+import com.booking.users.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,12 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private CustomerModel customerModel;
+
+    private User user;
 
     @NotNull
     protected ResponseEntity signup(Customer customer) {
@@ -46,19 +53,15 @@ public class CustomerService {
         if(customerRepository.findByPhoneNumber(customer.getPhoneNumber()) != null)
             return new ResponseEntity("Phone number already exists", HttpStatus.BAD_REQUEST);
 
-        //if(save(customer) != null)
         customerModel = new CustomerModel(customer);
-        customerRepository.save(customerModel);
-        return new ResponseEntity("Sign up successful", HttpStatus.OK);
+        user = new User(customer.getUsername(),customer.getPassword());
 
-        //return new ResponseEntity("Some error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        customerRepository.save(customerModel);
+        userRepository.save(user);
+
+        return new ResponseEntity("Sign up successful", HttpStatus.OK);
     }
 
-//    private CustomerModel save(Customer customer) {
-//        customerModel = new CustomerModel(customer);
-//        System.out.println(customerModel);
-//        return customerRepository.save(customerModel);
-//    }
 
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,64}$";
@@ -95,7 +98,8 @@ public class CustomerService {
         return matcher.matches();
     }
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
         this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
     }
 }
