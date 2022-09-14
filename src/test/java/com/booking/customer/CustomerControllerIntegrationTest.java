@@ -48,7 +48,7 @@ public class CustomerControllerIntegrationTest {
     public void shouldSignUpSuccessfullyWhenAllCriteriaAreMet() throws Exception {
 
         String requestJson = objectMapper.writeValueAsString(
-                new Customer("user@1", "TestUser", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("user@1", "TestUser", "demo@gmail.com", "6129456790", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")
@@ -118,7 +118,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     public void shouldNotSignUpWhenUsernameIsInvalid() throws Exception {
         String requestJson = objectMapper.writeValueAsString(
-                new Customer("1username", "Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
+                new Customer("us@1", "Test User", "demo@gmail.com", "9123456780", "Test@123", "Test@123")
         );
 
         mockMvc.perform(post("/sign-up")

@@ -53,13 +53,20 @@ public class CustomerService {
         if(customerRepository.findByPhoneNumber(customer.getPhoneNumber()) != null)
             return new ResponseEntity("Phone number already exists", HttpStatus.BAD_REQUEST);
 
-        customerModel = new CustomerModel(customer);
-        user = new User(customer.getUsername(),customer.getPassword());
-
-        customerRepository.save(customerModel);
-        userRepository.save(user);
+        saveInCustomerRepository(customer);
+        saveInUserRepository(customer);
 
         return new ResponseEntity("Sign up successful", HttpStatus.OK);
+    }
+
+    private void saveInUserRepository(Customer customer) {
+        user = new User(customer.getUsername(), customer.getPassword());
+        userRepository.save(user);
+    }
+
+    private void saveInCustomerRepository(Customer customer) {
+        customerModel = new CustomerModel(customer);
+        customerRepository.save(customerModel);
     }
 
 
@@ -85,14 +92,16 @@ public class CustomerService {
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
-        String regex = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
+
+        //String regex = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
+        String regex = "^[6-9]+[0-9]{9}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(phoneNumber);
         return matcher.matches();
     }
 
     private boolean isValidUsername(String username) {
-        String regex = "^[A-Za-z]+[@_]+[0-9]+$";
+        String regex = "^[A-Za-z]{3,}[@_]+[0-9]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(username);
         return matcher.matches();
