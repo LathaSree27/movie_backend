@@ -41,6 +41,14 @@ public class Movie {
         this.posterUrl = posterUrl;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

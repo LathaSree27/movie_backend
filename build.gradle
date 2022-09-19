@@ -52,6 +52,7 @@ dependencies {
             strictly '2.13.2.1'
         }
     }
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation 'com.fasterxml.jackson:jackson-bom:2.13.2'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
