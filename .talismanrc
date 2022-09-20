@@ -33,4 +33,6 @@ fileignoreconfig:
   checksum: 8eb4ce94598539f94aab781c6f9d047eeb89c36fb2939232cadbf7e50aa24f2c
 - filename: src/main/java/com/booking/bookings/view/BookingRequest.java
   checksum: 1c62981db3bd81fc232aa365d75d9a4be93e59b3b7ee1b18510d6a6cb86864c7
+- filename: src/main/resources/db/migration/V2.5__AddColumnRolenameInUserTable.sql
+  checksum: 828d69a2266b8cc42b525d0fd39ed02334b9ad123404afa71ffda5e8f439c831
 version: ""

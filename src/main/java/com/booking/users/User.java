@@ -25,12 +25,19 @@ public class User {
     @ApiModelProperty(name = "password", value = "Password of the user", required = true, example = "password", position = 2)
     private String password;
 
+    @JsonProperty
+    @NotBlank(message = "Role name cannot be null")
+    @Column(nullable = false)
+    @ApiModelProperty(name = "role_name", value = "Role of user", required = true, example = "admin", position = 3)
+    private String role_name;
+
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String role_name) {
         this.username = username;
         this.password = password;
+        this.role_name = role_name;
     }
 
     public Long getId() {
@@ -51,5 +58,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole_name() {
+        return role_name;
+    }
+
+    public void setRole_name(String role_name) {
+        this.role_name = role_name;
     }
 }

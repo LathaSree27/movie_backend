@@ -69,4 +69,8 @@ public class UserPrincipalService implements UserDetailsService {
         Matcher matcher = pattern.matcher(newPassword);
         return matcher.matches();
     }
+
+    public String getRoleName(String username){
+        return userRepository.findByUsername(username).get().getRole_name();
+    }
 }

@@ -32,7 +32,7 @@ public class CustomerServiceTest {
         Customer customer = new Customer("user@1", "TestUser", "demo1@gmail.com", "9123456780", "Test@123", "Test@123");
         CustomerModel customerModel = new CustomerModel(customer);
         CustomerModel mockCustomerModel = mock(CustomerModel.class);
-        User user = new User("user@1","Test@123");
+        User user = new User("user@1","Test@123","customer");
         User mockUser = mock(User.class);
         when(customerRepository.save(customerModel)).thenReturn(mockCustomerModel);
         when(userRepository.save(user)).thenReturn(mockUser);

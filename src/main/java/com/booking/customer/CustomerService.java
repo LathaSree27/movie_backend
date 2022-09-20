@@ -60,7 +60,7 @@ public class CustomerService {
     }
 
     private void saveInUserRepository(Customer customer) {
-        user = new User(customer.getUsername(), customer.getPassword());
+        user = new User(customer.getUsername(), customer.getPassword(),"customer");
         userRepository.save(user);
     }
 

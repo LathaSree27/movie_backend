@@ -43,7 +43,7 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldLoginSuccessfully() throws Exception {
-        userRepository.save(new User("test-user", "password"));
+        userRepository.save(new User("test-user", "password","admin"));
         mockMvc.perform(get("/login")
                         .with(httpBasic("test-user", "password")))
                 .andExpect(status().isOk());
@@ -57,7 +57,7 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldChangePasswordSuccessfully() throws Exception {
-        userRepository.save(new User("test-user", "user@123"));
+        userRepository.save(new User("test-user", "user@123","admin"));
         mockMvc.perform(get("/login")
                 .with(httpBasic("test-user", "user@123")));
         String requestJson = "{" +
@@ -76,7 +76,7 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldNotChangePasswordWhenOldPasswordIsWrong() throws Exception {
-        userRepository.save(new User("test-user", "user@123"));
+        userRepository.save(new User("test-user", "user@123","admin"));
         mockMvc.perform(get("/login")
                 .with(httpBasic("test-user", "user@123")));
         String requestJson = "{" +
@@ -95,7 +95,7 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldNotChangePasswordWhenNewPasswordDoesNotMeetCriteria() throws Exception {
-        userRepository.save(new User("test-user", "user@123"));
+        userRepository.save(new User("test-user", "user@123","admin"));
         mockMvc.perform(get("/login")
                 .with(httpBasic("test-user", "user@123")));
         String requestJson = "{" +
@@ -114,7 +114,7 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldNotChangePasswordWhenNewPasswordsDoNotMatch() throws Exception {
-        userRepository.save(new User("test-user", "user123"));
+        userRepository.save(new User("test-user", "user123","admin"));
         mockMvc.perform(get("/login")
                 .with(httpBasic("test-user", "user123")));
         String requestJson = "{" +
@@ -133,7 +133,7 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldNotChangePasswordWhenNewPasswordsAndOldPasswordIsSame() throws Exception {
-        userRepository.save(new User("test-user", "User-demo@123"));
+        userRepository.save(new User("test-user", "User-demo@123","admin"));
         mockMvc.perform(get("/login")
                 .with(httpBasic("test-user", "User-demo@123")));
         String requestJson = "{" +
