@@ -1,5 +1,6 @@
 package com.booking.shows.view.models;
 
+import com.booking.bookings.repository.BookingRepository;
 import com.booking.movieGateway.models.Movie;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
@@ -30,12 +31,16 @@ public class ShowResponse {
     @JsonProperty
     @ApiModelProperty(required = true, position = 5)
     private final Slot slot;
+    @JsonProperty
+    @ApiModelProperty(required = true,position=6)
+    private Integer bookedSeats;
 
-    public ShowResponse(Movie movie, Slot slot, Show show) {
+    public ShowResponse(Movie movie, Integer bookedSeats, Slot slot, Show show) {
         this.movie = movie;
         this.slot = slot;
         this.id = show.getId();
         this.date = show.getDate();
         this.cost = show.getCost();
+        this.bookedSeats=bookedSeats;
     }
 }

@@ -1,5 +1,6 @@
 package com.booking.shows.view;
 
+import com.booking.bookings.repository.BookingRepository;
 import com.booking.handlers.models.ErrorResponse;
 import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
@@ -30,7 +31,8 @@ public class ShowController {
     public ShowController(ShowService showService) {
         this.showService = showService;
     }
-
+    @Autowired
+    public BookingRepository bookingRepository;
     @GetMapping
     @ApiOperation(value = "Fetch shows")
     @ResponseStatus(code = HttpStatus.OK)
@@ -48,6 +50,7 @@ public class ShowController {
 
     private ShowResponse constructShowResponse(Show show) throws IOException, FormatException {
         Movie movie = showService.getMovieById(show.getMovieId());
-        return new ShowResponse(movie, show.getSlot(), show);
+        Integer bookedSeats = bookingRepository.bookedSeatsByShow(show.getId());
+        return new ShowResponse(movie, bookedSeats, show.getSlot(), show);
     }
 }

@@ -49,6 +49,7 @@ public class Show {
         this.slot = slot;
         this.cost = cost;
         this.movieId = movieId;
+
     }
 
     public Show(Show show) {
