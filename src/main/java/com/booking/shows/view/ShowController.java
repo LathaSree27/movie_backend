@@ -52,5 +52,6 @@ public class ShowController {
         Movie movie = showService.getMovieById(show.getMovieId());
         Integer bookedSeats = bookingRepository.bookedSeatsByShow(show.getId());
         return new ShowResponse(movie, bookedSeats, show.getSlot(), show);
+
     }
 }
