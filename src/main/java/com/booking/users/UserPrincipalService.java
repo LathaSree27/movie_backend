@@ -1,5 +1,6 @@
 package com.booking.users;
 
+import com.booking.config.security.PasswordEncoderConfig;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -19,15 +20,14 @@ import java.util.regex.Pattern;
 public class UserPrincipalService implements UserDetailsService {
     private final UserRepository userRepository;
 
-    @Autowired
-    @Lazy
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+
     @Autowired
     public UserPrincipalService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
 
 
     @Override
@@ -50,7 +50,7 @@ public class UserPrincipalService implements UserDetailsService {
 
         String oldPassword = changePassword.getOldPassword();
 
-        if (!isPasswordMatch(oldPassword, password)) {
+        if (!isPasswordMatch(oldPassword, password) || isSame(oldPassword,password)) {
             return new ResponseEntity("Incorrect old password", HttpStatus.BAD_REQUEST);
         }
 
@@ -88,7 +88,6 @@ public class UserPrincipalService implements UserDetailsService {
         return matcher.matches();
     }
 
-<<<<<<< HEAD
     public String getRoleName(String username){
         Optional<User>user=userRepository.findByUsername(username);
 
@@ -98,7 +97,4 @@ public class UserPrincipalService implements UserDetailsService {
         }
         return userRepository.findByUsername(username).get().getRole_name();
     }
-=======
-
->>>>>>> feb25f7 ([Deepa | Vaishnavi Bandaru] Add. password encryption for user)
 }

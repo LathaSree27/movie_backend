@@ -21,8 +21,7 @@ public class CustomerService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     private CustomerModel customerModel;
 
@@ -48,13 +47,13 @@ public class CustomerService {
         if (!customer.getPassword().equals(customer.getConfirmPassword()))
             return new ResponseEntity("Passwords don't match", HttpStatus.BAD_REQUEST);
 
-        if(customerRepository.findByUsername(customer.getUsername()) != null)
+        if (customerRepository.findByUsername(customer.getUsername()) != null)
             return new ResponseEntity("Username already exists", HttpStatus.BAD_REQUEST);
 
-        if(customerRepository.findByEmail(customer.getEmail()) != null)
+        if (customerRepository.findByEmail(customer.getEmail()) != null)
             return new ResponseEntity("Email already exists", HttpStatus.BAD_REQUEST);
 
-        if(customerRepository.findByPhoneNumber(customer.getPhoneNumber()) != null)
+        if (customerRepository.findByPhoneNumber(customer.getPhoneNumber()) != null)
             return new ResponseEntity("Phone number already exists", HttpStatus.BAD_REQUEST);
 
         saveInCustomerRepository(customer);
@@ -65,11 +64,7 @@ public class CustomerService {
 
 
     private void saveInUserRepository(Customer customer) {
-<<<<<<< HEAD
-        user = new User(customer.getUsername(), customer.getPassword(),"customer");
-=======
-        user = new User(customer.getUsername(), passwordEncoder.encode(customer.getPassword()));
->>>>>>> feb25f7 ([Deepa | Vaishnavi Bandaru] Add. password encryption for user)
+        user = new User(customer.getUsername(), passwordEncoder.encode(customer.getPassword()), "customer");
         userRepository.save(user);
     }
 
@@ -116,8 +111,9 @@ public class CustomerService {
         return matcher.matches();
     }
 
-    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository,PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 }

@@ -3,6 +3,7 @@ package com.booking.users;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -14,10 +15,12 @@ import java.util.Map;
 public class UserController {
 
     UserPrincipalService userPrincipalService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserPrincipalService userPrincipalService) {
+    public UserController(UserPrincipalService userPrincipalService, PasswordEncoder passwordEncoder) {
         this.userPrincipalService = userPrincipalService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/login")
