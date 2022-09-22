@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,9 @@ public class CustomerService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private CustomerModel customerModel;
 
@@ -59,8 +63,13 @@ public class CustomerService {
         return new ResponseEntity("Sign up successful", HttpStatus.OK);
     }
 
+
     private void saveInUserRepository(Customer customer) {
+<<<<<<< HEAD
         user = new User(customer.getUsername(), customer.getPassword(),"customer");
+=======
+        user = new User(customer.getUsername(), passwordEncoder.encode(customer.getPassword()));
+>>>>>>> feb25f7 ([Deepa | Vaishnavi Bandaru] Add. password encryption for user)
         userRepository.save(user);
     }
 

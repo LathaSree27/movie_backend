@@ -1,6 +1,7 @@
 package com.booking.users.view;
 
 import com.booking.App;
+import com.booking.users.ChangePasswordRequest;
 import com.booking.users.User;
 import com.booking.users.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +13,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.mock;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,7 +33,6 @@ class UserControllerIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
-
     @BeforeEach
     public void before() {
         userRepository.deleteAll();

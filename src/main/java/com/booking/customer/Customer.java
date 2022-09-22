@@ -12,6 +12,7 @@ public class Customer {
     public Customer() {
     }
 
+
     public Customer(String username, String fullName, String email, String phoneNumber, String password, String confirmPassword) {
         this.username = username;
         this.fullName = fullName;

@@ -2,11 +2,13 @@ package com.booking.users;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,9 +20,15 @@ public class UserPrincipalService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserPrincipalService(UserRepository userRepository) {
+    @Lazy
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    public UserPrincipalService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,11 +44,13 @@ public class UserPrincipalService implements UserDetailsService {
     @NotNull
     public ResponseEntity changePasswordStatus(ChangePasswordRequest changePassword, String username) {
         Optional<User> user = userRepository.findByUsername(username);
+
+
         String password = user.get().getPassword();
 
         String oldPassword = changePassword.getOldPassword();
 
-        if (!isSame(password, oldPassword)) {
+        if (!isPasswordMatch(oldPassword, password)) {
             return new ResponseEntity("Incorrect old password", HttpStatus.BAD_REQUEST);
         }
 
@@ -53,9 +63,17 @@ public class UserPrincipalService implements UserDetailsService {
         if (!isSame(newPassword, changePassword.getConfirmNewPassword()))
             return new ResponseEntity("Passwords don't match", HttpStatus.BAD_REQUEST);
 
-        user.get().setPassword(newPassword);
+        user.get().setPassword(getEncode(newPassword));
         userRepository.save(user.get());
         return new ResponseEntity("Password changed successfully", HttpStatus.OK);
+    }
+
+    private String getEncode(String newPassword) {
+        return passwordEncoder.encode(newPassword);
+    }
+
+    private boolean isPasswordMatch(String oldPassword, String password) {
+        return passwordEncoder.matches(oldPassword, password);
     }
 
     private boolean isSame(String firstPassword, String secondPassword) {
@@ -70,6 +88,7 @@ public class UserPrincipalService implements UserDetailsService {
         return matcher.matches();
     }
 
+<<<<<<< HEAD
     public String getRoleName(String username){
         Optional<User>user=userRepository.findByUsername(username);
 
@@ -79,4 +98,7 @@ public class UserPrincipalService implements UserDetailsService {
         }
         return userRepository.findByUsername(username).get().getRole_name();
     }
+=======
+
+>>>>>>> feb25f7 ([Deepa | Vaishnavi Bandaru] Add. password encryption for user)
 }

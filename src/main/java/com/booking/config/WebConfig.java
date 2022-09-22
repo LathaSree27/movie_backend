@@ -23,4 +23,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(appConfig.getUiHost())
                 .allowedMethods("*");
     }
+
 }
