@@ -32,12 +32,6 @@ public class CustomerModel {
     private String phoneNumber;
 
     @JsonProperty
-    @NotBlank(message = "Password name must be provided")
-    @Column(nullable = false)
-    @ApiModelProperty(name = "password", value = "Password of the customer", required = true, example = "password", position = 4)
-    private String password;
-
-    @JsonProperty
     @NotBlank(message = "User name must be provided")
     @Column(nullable = false, unique = true)
     @ApiModelProperty(name = "username", value = "Username of customer (must be unique)", required = true, example = "user_name", position = 1)
@@ -47,7 +41,6 @@ public class CustomerModel {
         this.fullName = customer.getFullName();
         this.email = customer.getEmail();
         this.phoneNumber = customer.getPhoneNumber();
-        this.password = customer.getPassword();
         this.username = customer.getUsername();
     }
 
