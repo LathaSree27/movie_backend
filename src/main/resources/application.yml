@@ -12,3 +12,10 @@ logging:
 application:
   uiHost: ${UI_HOST}
   movieServiceHost: ${MOVIE_SERVICE_HOST}
+togglz.console.enabled: true
+togglz.console.path: /togglz-console
+#togglz.console.feature-admin-authority=
+togglz.console.secured: false
+logging.level.org.togglz: trace
+togglz.features.LOGIN_FEATURE.enabled: true
+togglz.console.use-management-port: false

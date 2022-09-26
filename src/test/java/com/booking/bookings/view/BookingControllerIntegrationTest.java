@@ -149,7 +149,6 @@ public class BookingControllerIntegrationTest {
                         .content(overCapacityRequest))
                 .andExpect(status().is5xxServerError())
                 .andReturn();
-
     }
 
     private void setupBookingSeatsForSameShow() throws Exception {

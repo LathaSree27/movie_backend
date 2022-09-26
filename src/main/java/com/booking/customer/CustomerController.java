@@ -1,5 +1,6 @@
 package com.booking.customer;
 
+import com.booking.featureToggle.Features;
 import com.booking.handlers.models.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,8 +30,8 @@ public class CustomerController {
             @ApiResponse(code = 200, message = "Created a user successfully"),
             @ApiResponse(code = 400, message = "Error", response = ErrorResponse.class),
     })
+
     ResponseEntity sign_up(@RequestBody Customer customer) {
         return customerService.signup(customer);
     }
-
 }
