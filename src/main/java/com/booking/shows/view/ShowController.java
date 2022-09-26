@@ -1,6 +1,7 @@
 package com.booking.shows.view;
 
 import com.booking.bookings.repository.BookingRepository;
+import com.booking.featureToggle.Features;
 import com.booking.handlers.models.ErrorResponse;
 import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.togglz.core.Feature;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -57,7 +59,9 @@ public class ShowController {
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
     public ResponseEntity scheduleMovie(@RequestBody ShowRequest showRequest) {
-        return showService.addScheduledMovie(showRequest);
+        if(Features.SECHEDULEMOVIE_FEATURE.isActive())
+            return showService.addScheduledMovie(showRequest);
+        return new ResponseEntity("Page Not Found!", HttpStatus.BAD_REQUEST);
     }
 
     private ShowResponse constructShowResponse(Show show) throws IOException, FormatException {

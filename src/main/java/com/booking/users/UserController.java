@@ -3,6 +3,7 @@ package com.booking.users;
 import com.booking.featureToggle.Features;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,8 @@ public class UserController {
     @PutMapping("/login/changePassword")
     public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePassword,Principal principal) {
         String username = principal.getName();
-        return userPrincipalService.changePasswordStatus(changePassword, username);
+        if(Features.USERPROFILE_FEATURE.isActive())
+            return userPrincipalService.changePasswordStatus(changePassword, username);
+        return new ResponseEntity("Page Not Found!", HttpStatus.BAD_REQUEST);
     }
 }

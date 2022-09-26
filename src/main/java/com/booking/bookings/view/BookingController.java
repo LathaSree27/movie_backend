@@ -3,7 +3,9 @@ package com.booking.bookings.view;
 import com.booking.bookings.BookingService;
 import com.booking.bookings.repository.Booking;
 import com.booking.exceptions.NoSeatAvailableException;
+import com.booking.featureToggle.Features;
 import com.booking.handlers.models.ErrorResponse;
+import com.booking.users.UserPrincipalService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -11,9 +13,11 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Api(tags = "Bookings")
 @RestController
@@ -35,8 +39,9 @@ public class BookingController {
             @ApiResponse(code = 400, message = "Server cannot process request due to client error", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
-    public BookingConfirmationResponse book(@Valid @RequestBody BookingRequest bookingRequest) throws NoSeatAvailableException {
-        Booking booking = bookingService.book(bookingRequest.getAudience(), bookingRequest.getShowId(), bookingRequest.getDate(), bookingRequest.getNoOfSeats());
-        return booking.constructBookingConfirmation();
+
+    public ResponseEntity book(@Valid @RequestBody BookingRequest bookingRequest) throws NoSeatAvailableException {
+            Booking booking = bookingService.book(bookingRequest.getAudience(), bookingRequest.getShowId(), bookingRequest.getDate(), bookingRequest.getNoOfSeats());
+            return new ResponseEntity(booking.constructBookingConfirmation(), HttpStatus.CREATED);
     }
 }
