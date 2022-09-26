@@ -33,6 +33,7 @@ bootJar {
 
 bootRun {
     args = ["--spring.profiles.active=local"]
+//    jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=32323"]
 }
 
 tasks.withType(Test) {

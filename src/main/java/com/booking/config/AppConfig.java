@@ -10,6 +10,8 @@ public class AppConfig {
     private String uiHost;
     private String movieServiceHost;
 
+    private String paymentServiceHost;
+
     public String getUiHost() {
         return uiHost;
     }
@@ -22,7 +24,13 @@ public class AppConfig {
         return movieServiceHost;
     }
 
+    public String getPaymentServiceHost() {
+        return paymentServiceHost;
+    }
     public void setMovieServiceHost(String movieServiceHost) {
         this.movieServiceHost = movieServiceHost;
+    }
+    public void setPaymentServiceHost(String paymentServiceHost) {
+        this.paymentServiceHost = paymentServiceHost;
     }
 }
