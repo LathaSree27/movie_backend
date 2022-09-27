@@ -5,15 +5,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Component
 public class ShowRequest {
     @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Date must be provided")
     private String date;
+
+    public ShowRequest() {
+    }
 
     @JsonProperty
     @JsonSerialize(using = TimeSerializer.class)

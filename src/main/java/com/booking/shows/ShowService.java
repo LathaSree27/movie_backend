@@ -43,6 +43,7 @@ public class ShowService {
 
     public ResponseEntity addScheduledMovie(ShowRequest showRequest) {
         Slot slot = slotService.addOrFetchSlot(showRequest.getSlotTime());
+
         Show show = new Show(Date.valueOf(showRequest.getDate()), slot, new BigDecimal(randomCostGenerator()), showRequest.getMovieId());
 
         try {

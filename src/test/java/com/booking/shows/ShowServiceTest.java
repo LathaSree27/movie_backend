@@ -5,7 +5,9 @@ import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;
+import com.booking.shows.view.models.ShowRequest;
 import com.booking.slots.repository.Slot;
+import com.booking.slots.repository.SlotService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +26,15 @@ public class ShowServiceTest {
     private ShowRepository showRepository;
     private MovieGateway movieGateway;
 
+    private ShowRequest mockShowRequest;
+    private SlotService mockSlotService;
+
     @BeforeEach
     public void beforeEach() {
         showRepository = mock(ShowRepository.class);
         movieGateway = mock(MovieGateway.class);
+        mockShowRequest = mock(ShowRequest.class);
+        mockSlotService = mock(SlotService.class);
     }
 
     @Test
@@ -80,4 +87,5 @@ public class ShowServiceTest {
 
         assertThat(actualShows, is(equalTo(expectedShows)));
     }
+
 }

@@ -3,8 +3,10 @@ package com.booking.shows.view;
 import com.booking.App;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.movieGateway.models.Movie;
+import com.booking.shows.ShowService;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;
+import com.booking.shows.view.models.ShowRequest;
 import com.booking.slots.repository.Slot;
 import com.booking.slots.repository.SlotRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +26,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,10 +49,18 @@ public class ShowControllerIntegrationTest {
     @MockBean
     private MovieGateway movieGateway;
 
+    @Autowired
+    private ShowService mockShowService;
+
+    @Autowired
+    private ShowRequest mockShowRequest;
+
     @BeforeEach
     public void before() {
         showRepository.deleteAll();
         slotRepository.deleteAll();
+        mockShowRequest = mock(ShowRequest.class);
+        mockShowService = mock(ShowService.class);
     }
 
     @AfterEach
@@ -88,4 +98,15 @@ public class ShowControllerIntegrationTest {
                                 "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','plot':'Movie plot'}}" +
                                 "]"));
     }
+
+    @Test
+    void shouldCallAddScheduleMovieWhenShowRequestIsSent() {
+        ShowController showController = new ShowController(mockShowService);
+
+        showController.scheduleMovie(mockShowRequest);
+
+        verify(mockShowService).addScheduledMovie(mockShowRequest);
+    }
+
+
 }

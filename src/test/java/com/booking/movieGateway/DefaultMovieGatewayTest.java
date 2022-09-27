@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -28,17 +29,20 @@ class DefaultMovieGatewayTest {
             "\"Runtime\":\"120 min\"," +
             "\"Plot\":\"plot\"," +
             "\"Poster\":\"posterUrl\"}";
+    public static final List<String> MOCK_SERVER_RESPONSE_ALL_MOVIES = List.of("{\"imdbID\":\"id\"," + "\"Title\":\"title\"," + "\"Runtime\":\"120 min\"," + "\"Plot\":\"plot\"," + "\"Poster\":\"posterUrl\"}",
+
+            "{\"imdbID\":\"id\"," + "\"Title\":\"title\"," + "\"Runtime\":\"120 min\"," + "\"Plot\":\"plot\"," + "\"Poster\":\"posterUrl\"}");
     private MockWebServer mockWebServer;
 
     @BeforeEach
     public void setUp() throws IOException {
         mockWebServer = new MockWebServer();
-        mockWebServer.enqueue(new MockResponse().setBody(MOCK_SERVER_RESPONSE));
         mockWebServer.start();
     }
 
     @Test
     public void should_get_movie_from_service() throws IOException, FormatException {
+        mockWebServer.enqueue(new MockResponse().setBody(MOCK_SERVER_RESPONSE));
         final var testAppConfig = mock(AppConfig.class);
         when(testAppConfig.getMovieServiceHost()).thenReturn(String.valueOf(mockWebServer.url("/")));
 
@@ -47,8 +51,23 @@ class DefaultMovieGatewayTest {
 
         final var actualMovie = defaultMovieGateway.getMovieFromId("id");
 
-        final var expectedMovie = new Movie("id", "title", Duration.ofMinutes(120), "plot","posterUrl");
+        final var expectedMovie = new Movie("id", "title", Duration.ofMinutes(120), "plot", "posterUrl");
         assertThat(actualMovie, is(equalTo(expectedMovie)));
+    }
+
+    @Test
+    public void should_get_all_movies_from_service() throws IOException, FormatException {
+        mockWebServer.enqueue(new MockResponse().setBody(String.valueOf(MOCK_SERVER_RESPONSE_ALL_MOVIES)));
+        final var testAppConfig = mock(AppConfig.class);
+        when(testAppConfig.getMovieServiceHost()).thenReturn(String.valueOf(mockWebServer.url("/")));
+
+        final var defaultMovieGateway = new DefaultMovieGateway(testAppConfig, new OkHttpClient(), new Request.Builder(), new ObjectMapper());
+
+        final var actualMovieList = defaultMovieGateway.getMovie();
+        System.out.println(actualMovieList);
+
+        final var expectedMovieList = List.of(new Movie("id", "title", Duration.ofMinutes(120), "plot", "posterUrl"), new Movie("id", "title", Duration.ofMinutes(120), "plot", "posterUrl"));
+        assertThat(actualMovieList, is(equalTo(expectedMovieList)));
     }
 
     @AfterEach
