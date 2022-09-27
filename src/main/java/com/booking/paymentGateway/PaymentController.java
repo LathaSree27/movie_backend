@@ -5,29 +5,27 @@ import com.booking.paymentGateway.models.Payment;
 import io.swagger.annotations.Api;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @Api(tags = "Payment")
 @RestController
-public class paymentController {
+@RequestMapping("/payments")
+public class PaymentController {
 
     @Autowired
-    DefaultPaymentGateway defaultPaymentGateway;
+    private final PaymentGateway defaultPaymentGateway;
 
-    public paymentController(DefaultPaymentGateway defaultPaymentGateway) {
+    public PaymentController(PaymentGateway defaultPaymentGateway) {
         this.defaultPaymentGateway = defaultPaymentGateway;
     }
 
-    @PostMapping("/payments")
-//    @ApiOperation(value = "Post payment details")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Fetched title successfully"),
-//            @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
-//    })
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Response acceptPayment(@RequestBody Payment payment) throws IOException, FormatException {
+        System.out.println("=========hai===========");
+        System.out.println("in controller");
         return defaultPaymentGateway.getPaymentStatus(payment);
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public interface paymentGateway {
+public interface PaymentGateway {
     Response getPaymentStatus(Payment payment) throws IOException, FormatException;
 }

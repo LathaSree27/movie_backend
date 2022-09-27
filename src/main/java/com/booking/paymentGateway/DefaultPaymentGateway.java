@@ -15,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 
 @Component
 @Primary
-public class DefaultPaymentGateway implements paymentGateway {
+public class DefaultPaymentGateway implements PaymentGateway {
     private final AppConfig appConfig;
     private final OkHttpClient httpClient;
     private final Request.Builder requestBuilder;
@@ -31,6 +31,13 @@ public class DefaultPaymentGateway implements paymentGateway {
 
     @Override
     public Response getPaymentStatus(Payment payment) throws IOException, FormatException {
+//        RequestBody body = RequestBody.create(
+//                MediaType.parse("application/json"), json);
+//
+//        Request request = new Request.Builder()
+//                .url(BASE_URL + "/users/detail")
+//                .post(body)
+//                .build();
         RequestBody requestBody = RequestBody.create(String.valueOf(payment), MediaType.parse("application/json"));
         final var request = requestBuilder.url(appConfig.getPaymentServiceHost()).post(requestBody).build();
         final var response = httpClient.newCall(request).execute();

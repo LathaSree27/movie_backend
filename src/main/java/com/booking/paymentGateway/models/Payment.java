@@ -24,7 +24,6 @@ public class Payment  {
     private final String creditCardNumber;
 
     @JsonProperty
-    @JsonSerialize(using = DurationSerializer.class)
     @ApiModelProperty(name = "creditCardExpiration", dataType = "java.lang.String", value = "Expiry date", required = true, example = "03/2100", position = 3)
     private final String creditCardExpiration;
 
